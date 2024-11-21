@@ -48,12 +48,13 @@ pipeline {
                 '''
             }
             post {
-                always {'
+                always {
                     archiveArtifacts artifacts: 'results/**/*', fingerprint: true, allowEmptyArchive: true
                     defectDojoPublisher(artifact: 'results/trufflehog-results.json', productName: 'Juice Shop', scanType: 'Trufflehog Scan', engagementName: 'piatkosia.apt@interia.pl')
                 }
             }
         }
+
         stage ('SEMGREP') {
             steps {
                 sh 'semgrep scan --config auto --json > results/semgrep-results.json'
