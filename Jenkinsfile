@@ -11,7 +11,7 @@ pipeline {
                     git credentialsId: 'github-pat', url: 'https://github.com/Piatkosia/abcd-student.git', branch: 'main'
                 }
             }
-        }
+         }
         stage('Example') {
             steps {
                 echo 'Hello!'
@@ -19,7 +19,7 @@ pipeline {
             }
         }
 
-         stage('Prepare') {
+       stage('Prepare') {
             steps {
                 sh 'mkdir -p results/'
             }
@@ -38,5 +38,4 @@ pipeline {
             }
         }
     }
-
 }
