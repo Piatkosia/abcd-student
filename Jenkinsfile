@@ -73,6 +73,7 @@ pipeline {
         stage('[ZAP]ierdala pasywnie') {
             steps {
                 sh '''
+                docker stop zap juice-shop || true
                     docker run --name juice-shop -d --rm \
                         -p 3000:3000 bkimminich/juice-shop
                     sleep 32
