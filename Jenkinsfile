@@ -75,7 +75,7 @@ pipeline {
                 sh '''
                 docker stop zap juice-shop || true
                     docker run --name juice-shop -d --rm \
-                        -p 4000:3000 bkimminich/juice-shop
+                        -p 3000:3000 bkimminich/juice-shop
                     sleep 32
                 '''
                 sh '''
