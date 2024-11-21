@@ -26,6 +26,49 @@ pipeline {
             }
         }
 
+
+          stage('OSV') {
+            steps {
+                sh '''
+                osv-scanner scan --lockfile package-lock.json --json --output "${WORKSPACE}/results/osv-report.json"  || true
+                '''
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'results/**/*', fingerprint: true, allowEmptyArchive: true
+                    defectDojoPublisher(artifact: 'results/osv-report.json', productName: 'Juice Shop', scanType: 'OSV Scan', engagementName: 'piatkosia.apt@interia.pl')
+                }
+            }
+        }
+
+        stage('Trufflehog') {
+            steps {
+                sh '''
+                    trufflehog git file://. --branch main --only-verified --json > "${WORKSPACE}/results/trufflehog-results.json"
+                '''
+            }
+            post {
+                always {'
+                    archiveArtifacts artifacts: 'results/**/*', fingerprint: true, allowEmptyArchive: true
+                    defectDojoPublisher(artifact: 'results/trufflehog-results.json', productName: 'Juice Shop', scanType: 'Trufflehog Scan', engagementName: 'piatkosia.apt@interia.pl')
+                }
+            }
+        }
+        stage ('SEMGREP') {
+            steps {
+                sh 'semgrep scan --config auto --json > results/semgrep-results.json'
+            }
+            post {
+                always {
+                    echo 'Archiving results'
+                    archiveArtifacts artifacts: 'results/**/*', fingerprint: true, allowEmptyArchive: true
+                    echo 'Sending SEMGREP scan report to DefectDojo'
+                    defectDojoPublisher(artifact: 'results/semgrep-results.json', productName: 'Juice Shop', scanType: 'Semgrep JSON Report', engagementName: 'piatkosia.apt@interia.pl')
+                }
+            }
+        }
+
+
         stage('[ZAP]ierdala pasywnie') {
             steps {
                 sh '''
@@ -58,4 +101,4 @@ pipeline {
             }
         }
     }
-    }
+}
