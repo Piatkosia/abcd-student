@@ -53,8 +53,7 @@ pipeline {
                     echo 'Budowanie artefaktów'
                     archiveArtifacts artifacts: 'results/**/*', fingerprint: true, allowEmptyArchive: true
                     echo 'Zobaczymy czy DefectDojo przepuœci'
-                    defectDojoPublisact: 'results/zap_xml_report.xml', productName: 'Juice Shop', scanType: 'ZAP Scan', engagementName: 'piatkosia.apt@interia.pl')
+                    defectDojoPublisher(artifact: 'results/zap_xml_report.xml', productName: 'Juice Shop', scanType: 'ZAP Scan', engagementName: 'piatkosia.apt@interia.pl')
                 }
             }
-        }
-    }
+        }}
