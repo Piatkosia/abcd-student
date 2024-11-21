@@ -2,9 +2,9 @@ env:
   contexts:
     - name: test-context
       urls:
-        - "http://host.docker.internal:3000/"
+        - "http://host.docker.internal:4000/"
       includePaths:
-        - "http://host.docker.internal:3000/.*"
+        - "http://host.docker.internal:4000/.*"
   parameters:
     failOnError: true
     failOnWarning: false

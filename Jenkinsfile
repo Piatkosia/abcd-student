@@ -82,9 +82,9 @@ pipeline {
                     docker run --name zap \
                         --add-host=host.docker.internal:host-gateway \
                         -v C:/Users/piatk/source/repos/abcd-student/.zap:/zap/wrk/:rw  \
-                        -t ghcr.io/zaproxy/zaproxy:stable bash -c \
-                        "zap.sh -cmd -addonupdate; zap.sh -cmd -addoninstall communityScripts -addoninstall pscanrulesAlpha -addoninstall pscanrulesBeta -autorun /zap/wrk/passive.yaml" \
-                        || true
+                       -t ghcr.io/zaproxy/zaproxy:stable bash -c \
+                       "mkdir -p /zap/wrk/reports; zap.sh -cmd -addonupdate; zap.sh -cmd -addoninstall communityScripts -addoninstall pscanrulesAlpha -addoninstall pscanrulesBeta -autorun /zap/wrk/passive.yaml --user root" \
+                                    || true
                 '''
             }
             post {
